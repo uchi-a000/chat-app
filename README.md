@@ -1,6 +1,6 @@
 # Chat App
 
-Laravel（API）と Next.js（フロント）で構成されたリアルタイムチャットアプリです。
+Laravel（API）と Next.js（フロント）で構成されたリアルタイムチャットアプリです。  
 学習目的として、Docker・認証・API設計・フロント連携まで一通り実装しています。
 
 ---
@@ -66,7 +66,7 @@ Docker起動：
 
 ブラウザで確認：
 
-👉 http://localhost
+http://localhost
 
 ---
 
@@ -80,7 +80,7 @@ npm run dev
 
 ブラウザ：
 
-👉 http://localhost:3000
+http://localhost:3000
 
 ---
 
@@ -95,7 +95,7 @@ Laravel Sanctum を使用しています。
 
 Scramble による API ドキュメント：
 
-👉 http://localhost/docs/api
+http://localhost/docs/api
 
 ---
 
