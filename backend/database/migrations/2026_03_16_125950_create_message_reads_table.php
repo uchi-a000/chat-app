@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('message_reads', function (Blueprint $table) {
-            $table->ulid('id')->primary();
+            $table->id();
             $table->foreignUlid('message_id')->constrained('messages')->cascadeOnDelete();
             $table->foreignUlid('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
