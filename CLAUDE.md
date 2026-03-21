@@ -56,3 +56,16 @@ npm run lint     # ESLint
 - バックエンドは Laravel 標準ディレクトリ構成（ルート定義は `routes/api.php`、モデルは `app/Models/`）
 - フロントエンドは Next.js App Router（`app/` ディレクトリ）、パスエイリアス `@/*`
 - TypeScript strict モード有効
+
+### バックエンド配置・命名規則
+
+Controller の責務は UseCase（Action）に分離する。
+
+| 種別 | 配置パス | 命名 |
+|---|---|---|
+| Controller | `app/Http/Controllers/{Entity}Controller.php` | `{Entity}Controller` |
+| FormRequest | `app/Http/Requests/{Entity}/{Name}Request.php` | `{Name}Request` |
+| Resource | `app/Http/Resources/{Entity}/{Name}Resource.php` | `{Name}Resource` |
+| UseCase | `app/UseCases/{Entity}/{Name}Action.php` | `{Name}Action` |
+
+命名に Get / Create などの動詞プレフィックスは付けない（例: `RoomsAction`, `RoomRequest`, `MessagesResource`）。

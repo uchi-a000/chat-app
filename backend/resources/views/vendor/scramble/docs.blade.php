@@ -105,10 +105,8 @@
         <script>
             (async () => {
                 const docs = document.getElementById('docs');
-
-                // 文字列として埋め込んでから JSON に戻す
-                const spec = JSON.parse('{!! json_encode($spec) !!}');
-
+                const response = await fetch('{{ route("scramble.docs.document") }}');
+                const spec = await response.json();
                 docs.apiDescriptionDocument = spec;
             })();
         </script>
