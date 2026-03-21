@@ -121,6 +121,12 @@ http://localhost/docs/api
 
 ---
 
+## 🤖 開発支援
+
+本プロジェクトでは [Claude Code](https://claude.ai/code)（Anthropic の AI コーディングアシスタント）を活用して開発を行っています。
+
+---
+
 ## 📌 学習ポイント
 
 * Laravel API設計
