@@ -18,3 +18,4 @@ paths:
 - 主キーは ULID を使用（`$table->ulid('id')->primary()`、モデルに `HasUlids` トレイト）
 - 外部キーは `foreignUlid()` を使用
 - 既存モデルに関連するリレーションがあれば、そちらにも追加する
+- **中間テーブル**（BelongsToMany の pivot）は `$table->id()`（auto increment）を使用すること。ULID は `attach` 時に自動生成されずエラーになるため
