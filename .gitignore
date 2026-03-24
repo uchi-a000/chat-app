@@ -3,3 +3,4 @@
 .env
 /infra/docker/old-mysql/backup.sql
 .playwright-mcp/
+.claude/settings.local.json
