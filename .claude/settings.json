@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(find /Users/uchidaarisa/SideProject/chat-app/backend -name *.php -path */tests/*)",
+      "Bash(./vendor/bin/pint --test)",
+      "Bash(./vendor/bin/pint --test app/UseCases/Message app/Http/Controllers/MessageController.php app/Http/Requests/Message app/Http/Resources/Message 2>&1)",
+      "Bash(./vendor/bin/sail artisan:*)",
+      "Bash(python3:*)",
+      "Bash(./vendor/bin/sail bash:*)",
+      "Bash(curl -s http://localhost/docs/api.json)",
+      "Bash(curl -s http://localhost/docs/api)",
+      "Bash(docker volume:*)"
+    ]
+  }
+}
