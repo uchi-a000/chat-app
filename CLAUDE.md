@@ -69,3 +69,22 @@ Controller の責務は UseCase（Action）に分離する。
 | UseCase | `app/UseCases/{Entity}/{Name}Action.php` | `{Name}Action` |
 
 命名に Get / Create などの動詞プレフィックスは付けない（例: `RoomsAction`, `RoomRequest`, `MessagesResource`）。
+
+### テスト規約
+
+Controller（APIエンドポイント）を作成・変更したら、対応する Feature テストも必ず作成・更新する。
+
+| 種別 | 配置パス | 命名 |
+|---|---|---|
+| Feature テスト | `tests/Feature/{Entity}/{Name}Test.php` | `{Name}Test` |
+
+テスト実装ルール:
+- `RefreshDatabase` trait を使用
+- `actingAs($user, 'sanctum')` で認証
+- Factory でテストデータ作成
+- テストメソッド名は日本語（`test_ルームを作成できる`）
+- 各エンドポイントに対して最低限カバーするケース:
+  - 正常系（成功パターン）
+  - 未認証 → 401
+  - 権限チェックがある場合 → 非メンバー 403
+  - バリデーションがある場合 → 422（必須項目欠落、不正値）
