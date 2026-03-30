@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/logout', LogoutController::class);
 
+    Route::apiResource('users', UserController::class)->only(['index']);
     Route::apiResource('rooms', RoomController::class)->only(['index', 'store', 'show']);
     Route::apiResource('rooms.messages', MessageController::class)->only(['index', 'store'])->shallow();
 });
+

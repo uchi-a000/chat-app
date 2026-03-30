@@ -24,11 +24,11 @@ class RoomController extends Controller
 
     public function store(RoomRequest $request, RoomAction $action): JsonResponse
     {
-        $room = $action($request->user(), $request->validated());
+        $result = $action($request->user(), $request->validated());
 
-        return (new RoomDetailResource($room))
+        return (new RoomDetailResource($result['room']))
             ->response()
-            ->setStatusCode(201);
+            ->setStatusCode($result['is_new'] ? 201 : 200);
     }
 
     public function show(Request $request, Room $room, RoomDetailAction $action): RoomDetailResource
