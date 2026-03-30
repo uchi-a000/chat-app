@@ -69,6 +69,22 @@ class RoomsTest extends TestCase
             ->assertJsonCount(0, 'data');
     }
 
+    public function test_メッセージがないルームでも一覧取得できる(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $room = Room::factory()->create();
+        $room->users()->attach([$user->id, $otherUser->id]);
+
+        $response = $this->actingAs($user, 'sanctum')
+            ->getJson($this->endpoint);
+
+        $response->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.last_message', null);
+    }
+
     public function test_未認証の場合401が返る(): void
     {
         $response = $this->getJson($this->endpoint);

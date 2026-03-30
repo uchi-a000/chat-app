@@ -17,7 +17,7 @@ class RoomDetailResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'is_group' => $this->is_group,
-            'last_message' => $this->whenLoaded('lastMessage', fn () => [
+            'last_message' => $this->whenLoaded('lastMessage', fn () => $this->lastMessage ? [
                 'id' => $this->lastMessage->id,
                 'content' => $this->lastMessage->content,
                 'type' => $this->lastMessage->type,
@@ -27,7 +27,7 @@ class RoomDetailResource extends JsonResource
                     'last_name' => $this->lastMessage->user->last_name,
                 ],
                 'created_at' => $this->lastMessage->created_at,
-            ]),
+            ] : null),
             'users' => $this->whenLoaded('users', fn () => $this->users->map(fn ($user) => [
                 'id' => $user->id,
                 'first_name' => $user->first_name,
