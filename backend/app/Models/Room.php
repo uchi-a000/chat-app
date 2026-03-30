@@ -16,13 +16,15 @@ class Room extends Model
     protected $fillable = [
         'name',
         'is_group',
-        'last_message_id',
+        'last_message_id', // 最新メッセージの中身を取得するための FK
+        'last_message_at', // ルーム一覧のソート順に使う timestamp
     ];
 
     protected function casts(): array
     {
         return [
             'is_group' => 'boolean',
+            'last_message_at' => 'datetime',
         ];
     }
 

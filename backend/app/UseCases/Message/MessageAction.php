@@ -26,7 +26,10 @@ class MessageAction
                 'type' => $data['type'],
             ]);
 
-            $room->update(['last_message_id' => $message->id]);
+            $room->update([
+                'last_message_id' => $message->id,
+                'last_message_at' => $message->created_at,
+            ]);
 
             $message->load('user');
 
