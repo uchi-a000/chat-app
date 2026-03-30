@@ -10,20 +10,42 @@ class RoomSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::all();
+        $taro = User::where('email', 'taro@example.com')->firstOrFail();
+        $hanako = User::where('email', 'hanako@example.com')->firstOrFail();
+        $others = User::whereNotIn('id', [$taro->id, $hanako->id])->get();
 
-        // 1対1のDMルームを作成（最初の3ユーザー間）
-        for ($i = 0; $i < min(3, $users->count()); $i++) {
-            for ($j = $i + 1; $j < min(3, $users->count()); $j++) {
-                $room = Room::factory()->create();
-                $room->users()->attach([$users[$i]->id, $users[$j]->id]);
-            }
-        }
+        // DM 1: 太郎 ↔ 花子
+        $dm1 = Room::factory()->create();
+        $dm1->users()->attach([$taro->id, $hanako->id]);
 
-        // グループチャットを1つ作成
-        $group = Room::factory()->group()->create([
+        // DM 2: 太郎 ↔ ランダムユーザー1
+        $dm2 = Room::factory()->create();
+        $dm2->users()->attach([$taro->id, $others[0]->id]);
+
+        // DM 3: 太郎 ↔ ランダムユーザー2
+        $dm3 = Room::factory()->create();
+        $dm3->users()->attach([$taro->id, $others[1]->id]);
+
+        // グループ 1: 全体チャット（太郎・花子 + 3人）
+        $group1 = Room::factory()->group()->create([
             'name' => '全体チャット',
         ]);
-        $group->users()->attach($users->take(5)->pluck('id'));
+        $group1->users()->attach([
+            $taro->id,
+            $hanako->id,
+            $others[0]->id,
+            $others[1]->id,
+            $others[2]->id,
+        ]);
+
+        // グループ 2: プロジェクトA（太郎・花子 + 1人）
+        $group2 = Room::factory()->group()->create([
+            'name' => 'プロジェクトA',
+        ]);
+        $group2->users()->attach([
+            $taro->id,
+            $hanako->id,
+            $others[0]->id,
+        ]);
     }
 }
