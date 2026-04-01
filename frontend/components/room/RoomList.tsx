@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,6 +16,8 @@ type RoomsResponse = {
 
 export function RoomList() {
   const { user, logout } = useAuth();
+  const params = useParams();
+  const activeRoomId = params?.id as string | undefined;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, isLoading } = useSWR<RoomsResponse>(
     "/api/rooms",
@@ -69,7 +72,7 @@ export function RoomList() {
         ) : (
           <div>
             {rooms.map((room) => (
-              <RoomItem key={room.id} room={room} currentUser={user!} />
+              <RoomItem key={room.id} room={room} currentUser={user!} isActive={room.id === activeRoomId} />
             ))}
           </div>
         )}

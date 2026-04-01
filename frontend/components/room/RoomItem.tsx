@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { Room, User } from "@/types";
 import { formatRelativeTime } from "@/lib/date";
 
 type RoomItemProps = {
   room: Room;
   currentUser: User;
+  isActive: boolean;
 };
 
 /** DM の場合、相手ユーザーの名前を返す。グループはルーム名をそのまま返す */
@@ -28,19 +30,23 @@ function getInitial(name: string): string {
   return name.charAt(0).toUpperCase();
 }
 
-export function RoomItem({ room, currentUser }: RoomItemProps) {
+export function RoomItem({ room, currentUser, isActive }: RoomItemProps) {
   const displayName = getRoomDisplayName(room, currentUser);
   const lastMessage = room.last_message;
 
   // DM: 相手のアバター、グループ: ルーム名のイニシャル
   const avatarUser = !room.is_group
-    ? room.users?.find((u) => u.id !== currentUser.id)
+    ? room.users?.find((user) => user.id !== currentUser.id)
     : null;
 
   return (
-    <button
-      type="button"
-      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+    <Link
+      href={`/rooms/${room.id}`}
+      className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800 ${
+        isActive
+          ? "bg-zinc-100 dark:bg-zinc-800"
+          : ""
+      }`}
     >
       {/* アバター */}
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-300 text-sm font-medium text-zinc-700 dark:bg-zinc-600 dark:text-zinc-200">
@@ -80,6 +86,6 @@ export function RoomItem({ room, currentUser }: RoomItemProps) {
           </p>
         )}
       </div>
-    </button>
+    </Link>
   );
 }

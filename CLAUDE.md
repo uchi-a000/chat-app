@@ -70,6 +70,15 @@ Controller の責務は UseCase（Action）に分離する。
 
 命名に Get / Create などの動詞プレフィックスは付けない（例: `RoomsAction`, `RoomRequest`, `MessagesResource`）。
 
+### フロントエンド ページ構成規則
+
+各ページは責務を `page.tsx` と `Client.tsx` に分離する。
+
+| ファイル | 責務 | 備考 |
+|---|---|---|
+| `page.tsx` | Server Component。params 解決、メタ情報、Client への props 渡し | `"use client"` を付けない |
+| `Client.tsx` | Client Component。ブラウザイベント、状態管理、UI の組み立て | 同ディレクトリに配置 |
+
 ### テスト規約
 
 Controller（APIエンドポイント）を作成・変更したら、対応する Feature テストも必ず作成・更新する。
