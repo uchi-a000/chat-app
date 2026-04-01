@@ -46,7 +46,7 @@ class RoomAction
         $query = Room::where('is_group', false);
 
         foreach ($userIds as $userId) {
-            $query->whereHas('users', fn ($q) => $q->where('users.id', $userId));
+            $query->whereHas('users', fn ($subQuery) => $subQuery->where('users.id', $userId));
         }
 
         return $query

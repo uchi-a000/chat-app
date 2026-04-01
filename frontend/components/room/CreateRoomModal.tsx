@@ -78,7 +78,7 @@ export function CreateRoomModal({ open, onClose }: Props) {
         setSearch("");
         setSearchResults([]);
       } else {
-        if (!selectedUsers.some((u) => u.id === user.id)) {
+        if (!selectedUsers.some((selected) => selected.id === user.id)) {
           setSelectedUsers((prev) => [...prev, user]);
         }
         setSearch("");
@@ -89,18 +89,18 @@ export function CreateRoomModal({ open, onClose }: Props) {
   );
 
   const handleRemoveUser = useCallback((userId: string) => {
-    setSelectedUsers((prev) => prev.filter((u) => u.id !== userId));
+    setSelectedUsers((prev) => prev.filter((user) => user.id !== userId));
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setErrors({});
     setIsSubmitting(true);
 
     try {
       const body: CreateRoomRequest = {
         is_group: mode === "group",
-        user_ids: selectedUsers.map((u) => u.id),
+        user_ids: selectedUsers.map((user) => user.id),
         ...(mode === "group" && roomName.trim() ? { name: roomName.trim() } : {}),
       };
 
@@ -166,7 +166,7 @@ export function CreateRoomModal({ open, onClose }: Props) {
             label="グループ名"
             placeholder="グループ名を入力"
             value={roomName}
-            onChange={(e) => setRoomName(e.target.value)}
+            onChange={(event) => setRoomName(event.target.value)}
             error={errors.name}
           />
         )}
@@ -206,7 +206,7 @@ export function CreateRoomModal({ open, onClose }: Props) {
               type="text"
               placeholder="名前またはニックネームで検索"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(event) => setSearch(event.target.value)}
               className="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-1 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
             />
             {isSearching && (
@@ -223,7 +223,7 @@ export function CreateRoomModal({ open, onClose }: Props) {
           {searchResults.length > 0 && (
             <ul className="max-h-40 overflow-y-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
               {searchResults
-                .filter((u) => !selectedUsers.some((s) => s.id === u.id))
+                .filter((user) => !selectedUsers.some((selected) => selected.id === user.id))
                 .map((user) => (
                   <li key={user.id}>
                     <button

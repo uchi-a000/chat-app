@@ -32,8 +32,8 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
     return () => dialog.removeEventListener("close", handleClose);
   }, [onClose]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
+    if (event.target === dialogRef.current) {
       onClose();
     }
   };

@@ -15,7 +15,7 @@ function getRoomDisplayName(room: Room, currentUser: User): string {
     return room.name || "名前なしグループ";
   }
 
-  const other = room.users?.find((u) => u.id !== currentUser.id);
+  const other = room.users?.find((user) => user.id !== currentUser.id);
   if (other) {
     return `${other.last_name} ${other.first_name}`;
   }

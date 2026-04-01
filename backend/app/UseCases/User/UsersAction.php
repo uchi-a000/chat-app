@@ -16,8 +16,8 @@ class UsersAction
 
         if (! empty($data['search'])) {
             $search = $data['search'];
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
+            $query->where(function ($subQuery) use ($search) {
+                $subQuery->where('first_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%")
                     ->orWhere('nickname', 'like', "%{$search}%");
             });

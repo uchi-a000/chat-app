@@ -31,8 +31,8 @@ export function LoginForm() {
     localStorage.setItem(STORAGE_KEY, email);
   }, [email]);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setErrors({});
     setLoading(true);
 
@@ -63,7 +63,7 @@ export function LoginForm() {
         autoComplete="email"
         required
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(event) => setEmail(event.target.value)}
         error={errors.email}
       />
       <Input
@@ -73,7 +73,7 @@ export function LoginForm() {
         autoComplete="current-password"
         required
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(event) => setPassword(event.target.value)}
         error={errors.password}
       />
       <Button type="submit" loading={loading} className="w-full">

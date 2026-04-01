@@ -52,8 +52,8 @@ export function RegisterForm() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }, []);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setErrors({});
     setLoading(true);
 
@@ -84,7 +84,7 @@ export function RegisterForm() {
           autoComplete="family-name"
           required
           value={form.last_name}
-          onChange={(e) => update("last_name", e.target.value)}
+          onChange={(event) => update("last_name", event.target.value)}
           error={errors.last_name}
         />
         <Input
@@ -93,7 +93,7 @@ export function RegisterForm() {
           autoComplete="given-name"
           required
           value={form.first_name}
-          onChange={(e) => update("first_name", e.target.value)}
+          onChange={(event) => update("first_name", event.target.value)}
           error={errors.first_name}
         />
       </div>
@@ -104,7 +104,7 @@ export function RegisterForm() {
         autoComplete="email"
         required
         value={form.email}
-        onChange={(e) => update("email", e.target.value)}
+        onChange={(event) => update("email", event.target.value)}
         error={errors.email}
       />
       <Input
@@ -114,7 +114,7 @@ export function RegisterForm() {
         autoComplete="new-password"
         required
         value={form.password}
-        onChange={(e) => update("password", e.target.value)}
+        onChange={(event) => update("password", event.target.value)}
         error={errors.password}
       />
       <Input
@@ -124,7 +124,7 @@ export function RegisterForm() {
         autoComplete="new-password"
         required
         value={form.password_confirmation}
-        onChange={(e) => update("password_confirmation", e.target.value)}
+        onChange={(event) => update("password_confirmation", event.target.value)}
         error={errors.password_confirmation}
       />
       <Button type="submit" loading={loading} className="w-full">
