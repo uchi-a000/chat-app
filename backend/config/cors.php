@@ -14,7 +14,7 @@ return [
 
     // この CORS 設定を適用するルートのパターン
     // api/* = すべての API ルート、sanctum/csrf-cookie = CSRF クッキー取得用
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'broadcasting/auth'],
 
     // 許可する HTTP メソッド（* = GET, POST, PUT, PATCH, DELETE などすべて）
     'allowed_methods' => ['*'],

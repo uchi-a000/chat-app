@@ -1,9 +1,10 @@
 "use client";
 
 import useSWRInfinite from "swr/infinite";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { api } from "@/lib/api";
 import { fetcher } from "@/lib/fetcher";
+import { getEcho } from "@/lib/echo";
 import type { Message, SendMessageRequest } from "@/types";
 
 type CursorPage = {
@@ -49,6 +50,35 @@ export function useMessages(roomId: string) {
     },
     [roomId, mutate],
   );
+
+  // WebSocket でリアルタイム受信
+  const mutateRef = useRef(mutate);
+
+  useEffect(() => {
+    mutateRef.current = mutate;
+  }, [mutate]);
+
+  useEffect(() => {
+    const echo = getEcho();
+    const channel = echo.private(`room.${roomId}`);
+
+    channel.listen("MessageSent", (event: { message: Message }) => {
+      mutateRef.current((pages) => {
+        if (!pages || pages.length === 0) return pages;
+
+        // 最初のページ（最新）にメッセージを追加
+        const firstPage = pages[0];
+        return [
+          { ...firstPage, data: [event.message, ...firstPage.data] },
+          ...pages.slice(1),
+        ];
+      }, { revalidate: false });
+    });
+
+    return () => {
+      echo.leave(`room.${roomId}`);
+    };
+  }, [roomId]);
 
   return {
     messages,

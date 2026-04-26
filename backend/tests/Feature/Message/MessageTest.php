@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Message;
 
+use App\Events\MessageSent;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class MessageTest extends TestCase
@@ -113,6 +115,26 @@ class MessageTest extends TestCase
             ]);
 
         $response->assertForbidden();
+    }
+
+    public function test_メッセージ送信時にMessageSentイベントがブロードキャストされる(): void
+    {
+        Event::fake([MessageSent::class]);
+
+        $user = User::factory()->create();
+        $room = Room::factory()->create();
+        $room->users()->attach($user->id);
+
+        $this->actingAs($user, 'sanctum')
+            ->postJson("/api/rooms/{$room->id}/messages", [
+                'content' => 'リアルタイムテスト',
+                'type' => 'text',
+            ]);
+
+        Event::assertDispatched(MessageSent::class, function (MessageSent $event) use ($room) {
+            return $event->message->room_id === $room->id
+                && $event->message->content === 'リアルタイムテスト';
+        });
     }
 
     public function test_未認証の場合401が返る(): void

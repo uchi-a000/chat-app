@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Message;
 
+use App\Events\MessageSent;
 use App\Models\Message;
 use App\Models\Room;
 use App\Models\User;
@@ -32,6 +33,8 @@ class MessageAction
             ]);
 
             $message->load('user');
+
+            broadcast(new MessageSent($message))->toOthers();
 
             return $message;
         });
